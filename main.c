@@ -35,12 +35,12 @@ int columnsOfMatrixOne =integerArr[1];
 printf("%d -> Columns\n",columnsOfMatrixOne);
 int lengthMatrix= (columnsOfMatrixOne*rowOfMatrixOne)+1;
 
-printf("%d -> Size\n",lengthMatrix-1);
+printf("%d -> Size\n",lengthMatrix);
 int firstArr[25];
 for(int loop = 0; loop <lengthMatrix-1; loop++) {
      firstArr[loop] = integerArr[loop+2];
      printf("%d LOOP First MAtrix \t",loop);
-   //  printf("%d\t", firstArr[loop]); }
+   printf("%d\t", firstArr[loop]);
 }
 
 int stratMAtrixTwo =lengthMatrix+3;
@@ -53,23 +53,33 @@ printf("%d -> row Matrix two \n",columnsofMatrixTwo);
 
 int lengthMatrix2= (columnsofMatrixTwo*rowOfMatrixTwo);
 
-int secondArr[20];
+int secondArr[50];
 int beginL=stratMAtrixTwo;
 printf("BEGIN MAT 2 : %d\n",beginL);
 int endArrIndex=beginL+lengthMatrix2-1;
 printf("end MAT 2 : %d\n",endArrIndex);
 printf("%d len :\n ",lengthMatrix2);
-for(int loop2 = 0; loop2 <lengthMatrix2-1;loop2++) {
+for(int loop2 = 0; loop2 <lengthMatrix2;loop2++) {
 int copyIndex =loop2+beginL;
 secondArr[loop2]=integerArr[copyIndex];
-printf(" LOOP  MAtrix2 , Loop :%d %d \n  ",secondArr[loop2],loop2);
+printf("***********************");
+printf("   index taken from Array  %d \/ %d \n  ", secondArr[loop2],copyIndex);
 
       }
-}
+
+//now we have Mat 1 and Mat 2
+
+ //prints the new array to ensure correct assignment
+int twoArray[rowOfMatrixOne][rowOfMatrixOne];
+	    int  counter = 0;
+   for (int row = 0; row < rowOfMatrixOne; row++) {
+   for (int column  = 0; column <lengthMatrix/rowOfMatrixOne; column++) {
+
+	  twoArray[row][column] = firstArr[counter];
+	  printf("%d %d%d Two D \n",twoArray[row][column],row,column);
+	  counter++;
+	    }
 
 
-
-
-
-
+}}
 
