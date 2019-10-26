@@ -63,7 +63,7 @@ for(int loop2 = 0; loop2 <lengthMatrix2;loop2++) {
 int copyIndex =loop2+beginL;
 secondArr[loop2]=integerArr[copyIndex];
 printf("***********************");
-printf("   index taken from Array  %d \/ %d \n  ", secondArr[loop2],copyIndex);
+printf("   index taken from Array  %d  %d \n  ", secondArr[loop2],copyIndex);
 
       }
 
@@ -81,5 +81,28 @@ int twoArray[rowOfMatrixOne][rowOfMatrixOne];
 	    }
 
 
-}}
+}
+printf("^^^^^^^^^^^^^^^^^^^");
+int twoArray_2[rowOfMatrixTwo][rowOfMatrixOne];
+	      counter = 0;
+   for (int row = 0; row < rowOfMatrixTwo; row++) {
+   for (int column  = 0; column <lengthMatrix2/rowOfMatrixTwo; column++) {
+
+	  twoArray_2[row][column] = firstArr[counter];
+	  printf("%d %d%d Two D \n",twoArray_2[row][column],row,column);
+	  counter++;
+	    }
+
+
+}
+
+
+
+
+
+
+
+
+
+}
 
