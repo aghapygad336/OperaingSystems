@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,11 +5,9 @@
 
 void main()
 {
-
-
   FILE* file = fopen ("input.txt", "r");
   int i = 0;
-int integerArr[25];
+int integerArr[50];
 int count =0;
   fscanf (file, "%d", &i);
   while (!feof (file))
@@ -63,33 +53,34 @@ for(int loop2 = 0; loop2 <lengthMatrix2;loop2++) {
 int copyIndex =loop2+beginL;
 secondArr[loop2]=integerArr[copyIndex];
 printf("***********************");
-printf("   index taken from Array  %d  %d \n  ", secondArr[loop2],copyIndex);
+printf("   index taken from Array  %d :  %d \n  ", secondArr[loop2],loop2);
 
       }
 
-//now we have Mat 1 and Mat 2
-
+//now we have Matrix 1 and Matrix
  //prints the new array to ensure correct assignment
+ printf("^^^^^^^^^ 2D ARRAY Matrix 1^^^^^^^^^^\n");
+
 int twoArray[rowOfMatrixOne][rowOfMatrixOne];
 	    int  counter = 0;
    for (int row = 0; row < rowOfMatrixOne; row++) {
    for (int column  = 0; column <lengthMatrix/rowOfMatrixOne; column++) {
 
 	  twoArray[row][column] = firstArr[counter];
-	  printf("%d %d%d Two D \n",twoArray[row][column],row,column);
+	  //printf("%d %d%d Two D \n",twoArray[row][column],row,column);
 	  counter++;
 	    }
 
 
 }
-printf("^^^^^^^^^^^^^^^^^^^");
+printf("^^^^^^^^^ 2D ARRAY Matrix 2^^^^^^^^^^\n");
 int twoArray_2[rowOfMatrixTwo][rowOfMatrixOne];
 	      counter = 0;
    for (int row = 0; row < rowOfMatrixTwo; row++) {
    for (int column  = 0; column <lengthMatrix2/rowOfMatrixTwo; column++) {
 
-	  twoArray_2[row][column] = firstArr[counter];
-	  printf("%d %d%d Two D \n",twoArray_2[row][column],row,column);
+	  twoArray_2[row][column] = secondArr[counter];
+	 printf("%d %d%d Two D \n",twoArray_2[row][column],row,column);
 	  counter++;
 	    }
 
