@@ -3,6 +3,7 @@
 #include <string.h>
 #include<pthread.h>
 #include <time.h>
+#DEFINE CLOCKS_PER_SEC 1000
 int row , row2, column, column2;
 int twoArray[20][20];
 int twoArray_2[20][20];
