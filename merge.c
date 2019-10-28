@@ -32,10 +32,10 @@ void main()
     printf("\n -> Number of Elements :%d  \n",elements);
 
     int sizeThreads=elements;
-    pthread_t tid[sizeThreads]; //10 thread
+    pthread_t tid[2]; //10 thread
     printf("\n -> Number of Elements :%d  \n",sizeThreads);
 
-    for(int i = 0; i < sizeThreads; i++)
+    for(int i = 0; i < 2; i++)
     {
       int rc = pthread_join(tid[i], &status);
         pthread_create(&tid[i],NULL,mergingMatrix,NULL);
