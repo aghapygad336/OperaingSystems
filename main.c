@@ -4,10 +4,11 @@
 #include<pthread.h>
 #include <time.h>
 int row , row2, column, column2;
+int r,k,n;
 int twoArray[20][20];
 int twoArray_2[20][20];
 int resultRow;
-
+int shifter;
 int resultColumn;
 int resultArr[20][20];
 void *multiplyCell(void *data) ;
@@ -71,29 +72,34 @@ void main()
     }
 
    // printf("^^^^^^^^^ 2D ARRAY Matrix 1^^^^^^^^^^\n");
-
+printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     int  counter = 0;
     for ( row = 0; row < rowOfMatrixOne; row++)
     {
-        for ( column  = 0; column <lengthMatrix/rowOfMatrixOne; column++)
+        for ( column  = 0; column <(lengthMatrix-1)/rowOfMatrixOne; column++)
         {
 
             twoArray[row][column] = firstArr[counter];
-            counter++;
+             printf("Two D MAT 1 %d %d%d ! \n",twoArray[row][column],row,column);
+                                   counter++;
+            //printf("Counter%d",counter);
+
+
         }
-        counter = 0;
-        int row2,column2;
+
 
 
     }
+
+    int counter2 =0;
     for ( row2 = 0; row2 < rowOfMatrixTwo; row2++)
     {
         for ( column2  = 0; column2 <lengthMatrix2/rowOfMatrixTwo; column2++)
         {
 
-            twoArray_2[row2][column2] = secondArr[counter];
-            //printf("%d %d%d Two D \n",twoArray_2[row2][column2],row2,column2);
-            counter++;
+            twoArray_2[row2][column2] = secondArr[counter2];
+            printf("Two D2 %d %d%d  \n",twoArray_2[row2][column2],row2,column2);
+            counter2++;
         }
     }
 
@@ -102,7 +108,7 @@ void main()
     int sizeThreads=resultRow*resultColumn;
     pthread_t tid[sizeThreads]; //->12 thread
     	clock_t begin = clock();
-printf(" Size %d\n ",sizeThreads);
+printf("Size %d\n ",sizeThreads);
     for(int i = 0; i < sizeThreads; i++)
     {
 
@@ -118,7 +124,8 @@ printf(" Size %d\n ",sizeThreads);
 
          pthread_create(&tid[i],NULL,multiplyCell,NULL);
         pthread_join(tid[i], NULL);
-printf(" Thread Number : %d\n",i);
+printf("Thread Number : %d\n",i);
+
     }
 
 	clock_t end = clock();
@@ -129,8 +136,6 @@ printf(" Thread Number : %d\n",i);
 
 void *multiplyCell(void *p)
 {
-
-int shiftNum;
 int  resultOfCell = 0;
     for(int n = 0; n< resultRow; n++)
     {
@@ -138,16 +143,16 @@ int  resultOfCell = 0;
                 for (int k = 0; k <column; k++) {
 
         {
-            resultOfCell =twoArray[n][k]*twoArray_2[k][r];
+        resultOfCell =twoArray[n][k]*twoArray_2[k][r];
+      //  printf(" %d X  %d  = %d \n",twoArray[n][k],twoArray_2[k][r],resultOfCell );
 
+}
             resultArr[n][r]=resultOfCell;
-            printf("THE CELL IS :%d \n",resultOfCell);}
-        }
+            printf("Result ------->>>>>>> %d\n ",   resultArr[n][r]);
+
+            }
+
 
     }
 
-
-
-
-    pthread_exit(0);
 }
