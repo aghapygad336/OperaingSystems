@@ -14,7 +14,7 @@ int resultArr[20][20];
 int columnArrayCopy[20];
 int  rowArrayCopy[20];
 int firstArr[25];
-int getOut,z;
+int getOut,z,h;
 
 int countRows;
 void *multiplyCell(void *data);
@@ -116,7 +116,7 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 printf("Size %d\n ",sizeThreads);
 
 
-
+h=0;
     for(int i = 0; i < sizeThreads; i++)
     {
 
@@ -132,8 +132,8 @@ printf("Size %d\n ",sizeThreads);
 
 /*
 
-a b c     x v
-d e f     y w
+h= 0 a b c     x v
+h =1 d e f     y w
           z i
 -> a*x +b*y +c*z First cell
 2 nested loops first for a b c Arrlength%columns
@@ -146,9 +146,9 @@ int storeCell=0;
 getOut=1;
 countRows=0;
 while (z==i){
-for(int h= 0;h<column;h++){
-while(countRows<column){
-rowArrayCopy[countRows]=twoArray[z][countRows];
+for(h= 0;h<column;h++){//move row
+while(countRows<column){//copy
+rowArrayCopy[countRows]=twoArray[h][countRows];
 printf("Copied to Row -> %d at thread%d, %d ,%d \n",rowArrayCopy[countRows],i,countRows,z);
 
 countRows++;
@@ -179,5 +179,9 @@ printf("Thread Number : %d\n",i);
 
 void *multiplyCell(void *p)
 {
+for(int l=0;l<column;l++){
+printf("%d -> Cell",rowArrayCopy[l]);
+
+}
 
 }
