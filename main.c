@@ -4,14 +4,20 @@
 #include<pthread.h>
 #include <time.h>
 int row , row2, column, column2;
-int r,k,n;
+int r,k,n,a;
 int twoArray[20][20];
 int twoArray_2[20][20];
 int resultRow;
 int shifter;
 int resultColumn;
 int resultArr[20][20];
-void *multiplyCell(void *data) ;
+int columnArrayCopy[20];
+int  rowArrayCopy[20];
+int firstArr[25];
+int getOut,z;
+
+int countRows;
+void *multiplyCell(void *data);
 
 void main()
 {
@@ -39,7 +45,6 @@ void main()
     int lengthMatrix= (columnsOfMatrixOne*rowOfMatrixOne)+1;
 
     //printf("%d -> Size\n",lengthMatrix);
-    int firstArr[25];
     for(int loop = 0; loop <lengthMatrix-1; loop++)
     {
         firstArr[loop] = integerArr[loop+2];
@@ -109,6 +114,9 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     pthread_t tid[sizeThreads]; //->12 thread
     	clock_t begin = clock();
 printf("Size %d\n ",sizeThreads);
+
+
+
     for(int i = 0; i < sizeThreads; i++)
     {
 
@@ -121,6 +129,41 @@ printf("Size %d\n ",sizeThreads);
 //);
 //Returns 0 if OK, and non-zero (> 0) if error.
 //Parameters for the routines are passed through void * arg.
+
+/*
+
+a b c     x v
+d e f     y w
+          z i
+-> a*x +b*y +c*z First cell
+2 nested loops first for a b c Arrlength%columns
+
+
+
+*/
+//copy row from first matrix
+int storeCell=0;
+getOut=1;
+countRows=0;
+while (z==i){
+for(int h= 0;h<column;h++){
+while(countRows<column){
+rowArrayCopy[countRows]=twoArray[z][countRows];
+printf("Copied to Row -> %d at thread%d, %d ,%d \n",rowArrayCopy[countRows],i,countRows,z);
+
+countRows++;
+}
+}
+getOut--;
+z++;
+}
+
+
+
+
+
+
+
 
          pthread_create(&tid[i],NULL,multiplyCell,NULL);
         pthread_join(tid[i], NULL);
@@ -136,23 +179,5 @@ printf("Thread Number : %d\n",i);
 
 void *multiplyCell(void *p)
 {
-int  resultOfCell = 0;
-    for(int n = 0; n< resultRow; n++)
-    {
-        for(int r = 0; r< resultColumn; r++)
-                for (int k = 0; k <column; k++) {
-
-        {
-        resultOfCell =twoArray[n][k]*twoArray_2[k][r];
-      //  printf(" %d X  %d  = %d \n",twoArray[n][k],twoArray_2[k][r],resultOfCell );
-
-}
-            resultArr[n][r]=resultOfCell;
-            printf("Result ------->>>>>>> %d\n ",   resultArr[n][r]);
-
-            }
-
-
-    }
 
 }
