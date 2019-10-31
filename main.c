@@ -16,8 +16,7 @@ int  rowArrayCopy[25];
 int firstArr[25];
 int sizeThreads;
 int elementMove,sizeThreadsCell;
-int threadID;
-void *multiplyCell(int threadID);
+void *multiplyCell(void* param);
 void *multiplyRowResult(void *data);
 void main()
 {
@@ -119,25 +118,24 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 
 
 
-
-
-
     for( threadID = 0; threadID < sizeThreadsCell; threadID++)
-    {
-            pthread_create(&tid[threadID],NULL,multiplyCell,threadID);
-        pthread_join(tid[threadID], NULL);
+    {int value =threadID ;
+    int *p;
+    p=&value;
+    
+            pthread_create(&tid[threadID],NULL,multiplyCell,p);
+            pthread_join(tid[threadID], NULL);
+	}
 }
 
-
-
-
-}
-
-void *multiplyCell(int threadID)
-
-{sumCell=0;
+void *multiplyCell(void * param)
+{   
+    int threadID = *(int *) param;
+    
+    sumCell=0;
     int i =threadID/resultRow ;
-  int j=threadID%resultColumn ;
+    int j=threadID%resultColumn ;
+
 
   for ( int k = 0 ; k <row2; k++ ){
     sumCell = twoArray_2[k][j]*twoArray[i][k] ;
@@ -147,7 +145,8 @@ void *multiplyCell(int threadID)
 }
 
         printf("------RESUL : %d ThreadID : %d------\n",sumCell,threadID);
+        
+        return NULL;
 
 }
-
 
