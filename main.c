@@ -3,7 +3,7 @@
 #include <string.h>
 #include<pthread.h>
 #include <time.h>
-int row , row2, column, column2;
+int row , row2, column, column2,xx,yy;
 int r,k,n,a;
 int twoArray[20][20];
 int twoArray_2[20][20];
@@ -111,7 +111,7 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     resultRow=row;
     resultColumn=column2;
     sizeThreads==resultRow*resultColumn;
-   sizeThreadsCell=resultRow*resultColumn*row;
+   sizeThreadsCell=resultRow*resultColumn;
     pthread_t tid[sizeThreadsCell]; //->12 thread
    // printf("Size %d\n ",sizeThreadsCell);
 
@@ -124,46 +124,31 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 
     for( threadID = 0; threadID < sizeThreadsCell; threadID++)
     {
-        pthread_create(&tid[threadID],NULL,multiplyCell,NULL);
+            pthread_create(&tid[threadID],NULL,multiplyCell,NULL);
         pthread_join(tid[threadID], NULL);
 }
 
-  for( threadID = 0; threadID < sizeThreads; threadID++)
-    {
-        pthread_create(&tid[threadID],NULL,multiplyRowResult,NULL);
-        pthread_join(tid[threadID], NULL);
+
+
+
 }
-}
-
-
-
 
 void *multiplyCell(void *p)
+
 {
-for(a=0;a<row;a++){
-for(int elementMove=0;elementMove<row2;elementMove++){
-int yy =twoArray[a][elementMove];
-int xx= twoArray_2[elementMove][a];
-printf("%d X %d \n",yy,xx);
-sumCell=yy*xx;
-printf("Cell Result : %d\n",sumCell);
+    int i =threadID/resultRow ;
+  int j=threadID%resultColumn ;
 
-}}}
-
-
-
-
- void *multiplyRowResult(void *f)
-{
-
-sumRow=0;
-for(int elementMove=0;elementMove<row2;elementMove++){
-int yy =twoArray[a][elementMove];
-int xx= twoArray_2[elementMove][a];
-//printf("%d X %d \n",yy,xx);
-sumRow=yy*xx+sumRow;
-//printf("Cell Result : %d\n",sumCell);
+  resultArr[i][j] = 0 ;
+  for ( int k = 0 ; k <row2 ; k++ ){
+  printf("***K : %d***\n",k);
+    resultArr[i][j] += twoArray_2[i][k]*twoArray[k][j] ;
+    printf("RESUL : %d ThreadID : %d\n",resultArr[i][j],threadID);
+    printf("I : %d J : %d\n",twoArray_2[i][k],twoArray[k][j]);
 
 }
+    printf("****RESUL : %d ThreadID : %d****\n",resultArr[i][j],threadID);
+
 }
+
 
