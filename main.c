@@ -17,7 +17,7 @@ int firstArr[25];
 int sizeThreads;
 int elementMove,sizeThreadsCell;
 int threadID;
-void *multiplyCell(void *data);
+void *multiplyCell(int threadID);
 void *multiplyRowResult(void *data);
 void main()
 {
@@ -124,7 +124,7 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 
     for( threadID = 0; threadID < sizeThreadsCell; threadID++)
     {
-            pthread_create(&tid[threadID],NULL,multiplyCell,NULL);
+            pthread_create(&tid[threadID],NULL,multiplyCell,threadID);
         pthread_join(tid[threadID], NULL);
 }
 
@@ -133,21 +133,20 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 
 }
 
-void *multiplyCell(void *p)
+void *multiplyCell(int threadID)
 
-{
+{sumCell=0;
     int i =threadID/resultRow ;
   int j=threadID%resultColumn ;
 
-  resultArr[i][j] = 0 ;
-  for ( int k = 0 ; k <row2 ; k++ ){
-  printf("***K : %d***\n",k);
-    resultArr[i][j] += twoArray_2[i][k]*twoArray[k][j] ;
-    printf("RESUL : %d ThreadID : %d\n",resultArr[i][j],threadID);
-    printf("I : %d J : %d\n",twoArray_2[i][k],twoArray[k][j]);
+  for ( int k = 0 ; k <row2; k++ ){
+    sumCell = twoArray_2[k][j]*twoArray[i][k] ;
+        printf("****RESUL : %d ThreadID : %d****\n",sumCell,threadID);
+
 
 }
-    printf("****RESUL : %d ThreadID : %d****\n",resultArr[i][j],threadID);
+
+        printf("------RESUL : %d ThreadID : %d------\n",sumCell,threadID);
 
 }
 
