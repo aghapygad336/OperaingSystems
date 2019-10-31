@@ -8,7 +8,7 @@ int r,k,n,a;
 int twoArray[20][20];
 int twoArray_2[20][20];
 int resultRow;
-int sumCell,sumRow;
+int sumRow;
 int resultColumn;
 int resultArr[20][20];
 int columnArrayCopy[25];
@@ -118,21 +118,20 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 
 
 
-    for( threadID = 0; threadID < sizeThreadsCell; threadID++)
+    for( int threadID = 0; threadID < sizeThreadsCell; threadID++)
     {int value =threadID ;
     int *p;
     p=&value;
-    
+
             pthread_create(&tid[threadID],NULL,multiplyCell,p);
             pthread_join(tid[threadID], NULL);
 	}
 }
 
 void *multiplyCell(void * param)
-{   
+{
     int threadID = *(int *) param;
-    
-    sumCell=0;
+int     sumCell=0;
     int i =threadID/resultRow ;
     int j=threadID%resultColumn ;
 
@@ -144,15 +143,7 @@ void *multiplyCell(void * param)
 
 }
 
-        printf("------RESUL : %d ThreadID : %d------\n",sumCell,threadID);
-        
+
         return NULL;
 
 }
-
-
-  
-  for(threadID = 0; threadID < sizeThreadsCell; threadID++){
-    pthread_join(tid[threadID], NULL);
-  }
-  
