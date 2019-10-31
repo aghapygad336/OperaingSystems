@@ -124,9 +124,13 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     p=&value;
     
             pthread_create(&tid[threadID],NULL,multiplyCell,p);
-            pthread_join(tid[threadID], NULL);
+            
 	}
-}
+  
+  for(threadID = 0; threadID < sizeThreadsCell; threadID++){
+    pthread_join(tid[threadID], NULL);
+  }
+  }
 
 void *multiplyCell(void * param)
 {   
