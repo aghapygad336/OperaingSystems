@@ -8,17 +8,17 @@ int r,k,n,a;
 int twoArray[20][20];
 int twoArray_2[20][20];
 int resultRow;
-int shifter;
+int sumCell,sumRow;
 int resultColumn;
 int resultArr[20][20];
-int columnArrayCopy[20];
-int  rowArrayCopy[20];
+int columnArrayCopy[25];
+int  rowArrayCopy[25];
 int firstArr[25];
-int getOut,z,h;
-
-int countRows;
+int sizeThreads;
+int elementMove,sizeThreadsCell;
+int threadID;
 void *multiplyCell(void *data);
-
+void *multiplyRowResult(void *data);
 void main()
 {
     pthread_t *threadPointer;
@@ -110,68 +110,29 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 
     resultRow=row;
     resultColumn=column2;
-    int sizeThreads=resultRow*resultColumn;
-    pthread_t tid[sizeThreads]; //->12 thread
+    sizeThreads==resultRow*resultColumn;
+   sizeThreadsCell=resultRow*resultColumn*row;
+    pthread_t tid[sizeThreadsCell]; //->12 thread
+   // printf("Size %d\n ",sizeThreadsCell);
+
     	clock_t begin = clock();
-printf("Size %d\n ",sizeThreads);
 
 
-h=0;
-    for(int i = 0; i < sizeThreads; i++)
+
+
+
+
+    for( threadID = 0; threadID < sizeThreadsCell; threadID++)
     {
-
-
-//
-//Thread equivalent of fork()
-
-//int  pthread_create(pthread_t  * thread,  thread_attr_t  *  attr, void * (*start_routine)(void *),
-//void * arg
-//);
-//Returns 0 if OK, and non-zero (> 0) if error.
-//Parameters for the routines are passed through void * arg.
-
-/*
-
-h= 0 a b c     x v
-h =1 d e f     y w
-          z i
--> a*x +b*y +c*z First cell
-2 nested loops first for a b c Arrlength%columns
-
-
-
-*/
-//copy row from first matrix
-int storeCell=0;
-getOut=1;
-countRows=0;
-while (z==i){
-for(h= 0;h<column;h++){//move row
-while(countRows<column){//copy
-rowArrayCopy[countRows]=twoArray[h][countRows];
-printf("Copied to Row -> %d at thread%d, %d ,%d \n",rowArrayCopy[countRows],i,countRows,z);
-
-countRows++;
-}
-}
-getOut--;
-z++;
+        pthread_create(&tid[threadID],NULL,multiplyCell,NULL);
+        pthread_join(tid[threadID], NULL);
 }
 
-
-
-
-
-
-
-
-         pthread_create(&tid[i],NULL,multiplyCell,NULL);
-        pthread_join(tid[i], NULL);
-printf("Thread Number : %d\n",i);
-
-    }
-
-	clock_t end = clock();
+  for( threadID = 0; threadID < sizeThreads; threadID++)
+    {
+        pthread_create(&tid[threadID],NULL,multiplyRowResult,NULL);
+        pthread_join(tid[threadID], NULL);
+}
 }
 
 
@@ -179,9 +140,30 @@ printf("Thread Number : %d\n",i);
 
 void *multiplyCell(void *p)
 {
-for(int l=0;l<column;l++){
-printf("%d -> Cell",rowArrayCopy[l]);
+for(a=0;a<row;a++){
+for(int elementMove=0;elementMove<row2;elementMove++){
+int yy =twoArray[a][elementMove];
+int xx= twoArray_2[elementMove][a];
+printf("%d X %d \n",yy,xx);
+sumCell=yy*xx;
+printf("Cell Result : %d\n",sumCell);
+
+}}}
+
+
+
+
+ void *multiplyRowResult(void *f)
+{
+
+sumRow=0;
+for(int elementMove=0;elementMove<row2;elementMove++){
+int yy =twoArray[a][elementMove];
+int xx= twoArray_2[elementMove][a];
+//printf("%d X %d \n",yy,xx);
+sumRow=yy*xx+sumRow;
+//printf("Cell Result : %d\n",sumCell);
 
 }
-
 }
+
