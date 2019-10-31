@@ -131,17 +131,19 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 void *multiplyCell(void * param)
 {
     int threadID = *(int *) param;
-int     sumCell=0;
+    int sumCell=0;
     int i =threadID/resultRow ;
     int j=threadID%resultColumn ;
 
 
-  for ( int k = 0 ; k <row2; k++ ){
-    sumCell = twoArray_2[k][j]*twoArray[i][k] ;
-        printf("****RESUL : %d ThreadID : %d****\n",sumCell,threadID);
+  for ( int k = 0 ; k <column; k++ ){
+  printf("A : %d \n",twoArray_2[k][j]);
+  printf("B : %d \n",twoArray[i][k]);
+    sumCell= sumCell+twoArray_2[k][j]*twoArray[i][k] ;
 
 
 }
+        printf("****RESUL : %d ThreadID : %d****\n",sumCell,threadID);
 
 
         return NULL;
