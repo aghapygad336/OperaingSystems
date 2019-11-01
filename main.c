@@ -123,9 +123,11 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     int *p;
     p=&value;
 
-            pthread_create(&tid[threadID],NULL,multiplyCell,p);
-            pthread_join(tid[threadID], NULL);
-	}
+            pthread_create(&tid[threadID],NULL,multiplyCell,p);}
+                for( int threadID = 0; threadID < sizeThreadsCell; threadID++)
+{
+            pthread_join(tid[threadID], NULL);}
+
 
 	   end_t = clock();
 	   	      total_t = (float)(end_t-start_t) / CLOCKS_PER_SEC;
@@ -144,7 +146,9 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     int *p;
     p=&value;
 
-            pthread_create(&tid[threadID],NULL,multiplyRow,p);
+            pthread_create(&tid[threadID],NULL,multiplyRow,p);}
+             for( int threadID = 0; threadID < row; threadID++)
+    {
             pthread_join(tid[threadID], NULL);
 	}
 
