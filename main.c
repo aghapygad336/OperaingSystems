@@ -181,7 +181,17 @@ void *multiplyCell(void * param)
     sumCell= sumCell+twoArray_2[k][j]*twoArray[i][k] ;
 
 
+
 }
+ FILE *fptr;
+   fptr = fopen("output.txt", "a");
+   if(fptr == NULL)
+   {
+      printf("Error!");
+      exit(1);
+   }
+   fprintf(fptr,"\n%d", sumCell);
+   fclose(fptr);
         printf("****RESUL : %d ThreadID : %d****\n",sumCell,threadID);
 
 
@@ -196,7 +206,15 @@ for (  i= 0 ; i<column2; i++ ){
       multiplyCell=twoArray[threadIDrow][j]*twoArray_2[j][i];
 
 }
-
+FILE *fptr;
+   fptr = fopen("output_2.txt", "a");
+   if(fptr == NULL)
+   {
+      printf("Error!");
+      exit(1);
+   }
+   fprintf(fptr,"\n%d", multiplyCell);
+   fclose(fptr);
 
 } return NULL;
 }
