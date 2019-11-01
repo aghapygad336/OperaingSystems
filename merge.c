@@ -5,41 +5,73 @@
 #include <time.h>
 int row ,  column;
 void * status;
-int integerArr[12],  l,  r, elements;
+int integerArr[12],elements;
 void *p;
-void *mergingMatrix(void *p) ;
-
+int elementCell = 0;
+void* mergeSortVector(void* arg);
+void merge_sort(int low, int high, int arr[]);
+void merge(int integerArr[], int l, int m, int r);
 void main()
+
 {
     pthread_t *threadPointer;
+    clock_t t_Start, t_End;
 
     FILE* file = fopen ("merge.txt", "r");
     int i = 0;
     int integerArr[50];
+    int copyArr[50];
     int count =0;
     fscanf (file, "%d", &i);
     while (!feof (file))
 
     {
-        integerArr[count]=i;
-        printf ("%d\t",  integerArr[count]);
+        copyArr[count]=i;
+        printf ("%d\t",  copyArr[count]);
         fscanf (file, "%d", &i);
 
         count ++;
     }
     fclose (file);
-    int elements =integerArr[0];
+    int elements =copyArr[0];
     printf("\n -> Number of Elements :%d  \n",elements);
-
-    int sizeThreads=elements;
-    pthread_t tid[2]; //10 thread
-    printf("\n -> Number of Elements :%d  \n",sizeThreads);
-
-    for(int i = 0; i < 2; i++)
+    for(int loop = 0; loop <elements; loop++)
     {
-      int rc = pthread_join(tid[i], &status);
-        pthread_create(&tid[i],NULL,mergingMatrix,NULL);
+        integerArr[loop] = copyArr[loop+1];
+        printf("MAtrix %d\n",integerArr[loop]);
+    }
+
+    int sizeThreads=2;
+    pthread_t tid[sizeThreads]; //10 thread
+    printf("-> Number of Threads :%d  \n",sizeThreads);
+
+    t_Start = clock();
+
+    for(int i = 0; i < sizeThreads; i++)
+    {
+        pthread_create(&tid[i],NULL,mergeSortVector,NULL);
+    }
+
+
+
+    for(int i = 0; i < sizeThreads; i++)
+    {
         pthread_join(tid[i], NULL);
+
+    }
+
+
+    t_End = clock();
+    float total_t;
+    total_t = (float)(t_End-t_Start) / CLOCKS_PER_SEC;
+
+    printf("Starting of the program, start_t = %ld\n", t_Start);
+
+    printf("End of the big loop, end_t = %ld\n", t_End);
+    printf("Total time taken by CPU For Merge Sort : %f\n",total_t);
+
+
+
 
 }
 
@@ -47,77 +79,85 @@ void main()
 
 
 
-    }
 
 
-    void merge(int integerArr[], int l, int m, int r)
+
+
+void* mergeSortVector(void* arg)
 {
-    int i, j, k;
+    int ele = elementCell;     // element out of 2 thread
+    int low = ele*(elements / 2);
+    int high = (ele +1) * (elements / 2) - 1;
+
+    int mid = low + (high - low) / 2;
+    if (high>low)
+    {
+        merge_sort(low, mid,integerArr);
+        merge_sort(mid + 1, high,integerArr);
+        merge(integerArr,low, mid, high);
+    }
+    elementCell++;
+}
+
+void merge_sort(int low, int high, int arr[])
+{
+    int mid = low + (high - low) / 2;
+    if (low < high)
+    {
+
+        merge_sort(low, mid,arr);
+        merge_sort(mid + 1, high,arr);
+        merge(arr,low, mid, high);
+    }
+}
+void merge(int integerArr[], int l, int m, int r)
+{
+    int sub_one, sub_two, merged;
     int n1 = m - l + 1;
     int n2 =  r - m;
-
-    int left[n1], right[n2];
-
-    for (i = 0; i < n1; i++)
-        left[i] = integerArr[l + i];
-    for (j = 0; j < n2; j++)
-        right[j] = integerArr[m + 1+ j];
-
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 && j < n2)
+    int L[n1], R[n2];
+    int temp=0;
+    while(temp!=n1)
     {
-        if (left[i] <= right[j])
+        L[temp] = integerArr[l + temp];
+        temp++;
+    }
+    int temp_2=0;
+
+    while(temp_2!=n2)
+    {
+        R[temp_2] = integerArr[m + 1+ temp_2];
+        temp_2++;
+    }
+
+    sub_one = 0;
+    sub_two = 0;
+    merged = l;
+    while (sub_one < n1 && sub_two < n2)
+    {
+        if (L[sub_one] <= R[sub_two])
         {
-            integerArr[k] = left[i];
-            i++;
+            integerArr[merged] = L[sub_one];
+            sub_one++;
         }
         else
         {
-            integerArr[k] = right[j];
-            j++;
+            integerArr[merged] = R[sub_two];
+            sub_two++;
         }
-        k++;
+        merged++;
     }
 
-    while (i < n1)
+    while (sub_one < n1)
     {
-        integerArr[k] = left[i];
-        i++;
-        k++;
+        integerArr[merged] = L[sub_one];
+        sub_one++;
+        merged++;
     }
-
-    while (j < n2)
+    while (sub_two < n2)
     {
-        integerArr[k] = right[j];
-        j++;
-        k++;
+        integerArr[merged] = R[sub_two];
+        sub_two++;
+        merged++;
     }
-}
-
-
-
-
-
-
-
-
-void mergeSort(int integerArr[], int l, int r)
-{
-    if (l < r)
-    {
-        int m = l+(r-l)/2;
-          mergeSort(integerArr, l, m);
-          mergeSort(integerArr, m+1, r);
-
-        merge(integerArr, l, m, r);
-    }
-}
-
-
-
-
-void *mergingMatrix(void *p){
-    mergeSort(integerArr, 0, elements - 1);
 }
