@@ -20,6 +20,7 @@ void *multiplyCell(void* param);
 void *multiplyRowResult(void *data);
 void main()
 {
+   clock_t start_t, end_t; float total_t;
     pthread_t *threadPointer;
 
     FILE* file = fopen ("input.txt", "r");
@@ -114,8 +115,7 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
     pthread_t tid[sizeThreadsCell]; //->12 thread
    // printf("Size %d\n ",sizeThreadsCell);
 
-    	clock_t begin = clock();
-
+    	 start_t = clock();
 
 
     for( int threadID = 0; threadID < sizeThreadsCell; threadID++)
@@ -126,7 +126,17 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
             pthread_create(&tid[threadID],NULL,multiplyCell,p);
             pthread_join(tid[threadID], NULL);
 	}
-}
+
+	   end_t = clock();
+	   	      total_t = (float)(end_t-start_t) / CLOCKS_PER_SEC;
+
+	      printf("Starting of the program, start_t = %ld\n", start_t);
+
+	      printf("End of the big loop, end_t = %ld\n", end_t);
+   printf("Total time taken by CPU: %f\n",total_t);
+
+
+   }
 
 void *multiplyCell(void * param)
 {
