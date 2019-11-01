@@ -48,8 +48,10 @@ void main()
     t_Start = clock();
 
     for(int i = 0; i < sizeThreads; i++)
-    {
-        pthread_create(&tid[i],NULL,mergeSortVector,NULL);
+    {int value =i ;
+    int *p;
+    p=&value;
+        pthread_create(&tid[i],NULL,mergeSortVector,p);
     }
 
 
@@ -84,8 +86,9 @@ void main()
 
 
 void* mergeSortVector(void* arg)
-{
-    int ele = elementCell;     // element out of 2 thread
+{    int ele = *(int *)arg;
+
+    printf("ELEMENT : %d\n",ele);    // element out of 2 thread
     int low = ele*(elements / 2);
     int high = (ele +1) * (elements / 2) - 1;
 
