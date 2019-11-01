@@ -4,7 +4,6 @@
 #include<pthread.h>
 #include <time.h>
 int row , row2, column, column2,xx,yy;
-int r,k,n,a;
 int twoArray[20][20];
 int twoArray_2[20][20];
 int resultRow;
@@ -12,15 +11,16 @@ int sumRow;
 int resultColumn;
 int resultArr[20][20];
 int columnArrayCopy[25];
-int  rowArrayCopy[25];
+int rowArrayCopy[25];
 int firstArr[25];
 int sizeThreads;
 int elementMove,sizeThreadsCell;
 void *multiplyCell(void* param);
-void *multiplyRowResult(void *data);
+void *multiplyRow(void *param);
 void main()
 {
    clock_t start_t, end_t; float total_t;
+   clock_t start_t2, end_t2; float total_t2;
     pthread_t *threadPointer;
 
     FILE* file = fopen ("input.txt", "r");
@@ -135,6 +135,35 @@ printf("row 2D ->>>>>>>>>%d , %d\n",lengthMatrix,rowOfMatrixOne);
 	      printf("End of the big loop, end_t = %ld\n", end_t);
    printf("Total time taken by CPU: %f\n",total_t);
 
+   printf("\n$$$$$$$$$$$$$$$$$\n");
+   	 start_t2= clock();
+
+
+    for( int threadID = 0; threadID < row; threadID++)
+    {int value =threadID ;
+    int *p;
+    p=&value;
+
+            pthread_create(&tid[threadID],NULL,multiplyRow,p);
+            pthread_join(tid[threadID], NULL);
+	}
+
+	   end_t2 = clock();
+	   	      total_t2 = (float)(end_t2-start_t2) / CLOCKS_PER_SEC;
+
+	      printf("Starting of the program, start_t = %ld\n", start_t2);
+
+	      printf("End of the big loop, end_t = %ld\n", end_t2);
+   printf("Total time taken by CPU: %f\n",total_t2);
+
+
+
+
+
+
+
+
+
 
    }
 
@@ -148,7 +177,6 @@ void *multiplyCell(void * param)
 
   for ( int k = 0 ; k <column; k++ ){
     printf("Matrix 1 : %d [%d] [%d]\n",twoArray[i][k],i,k);
-
   printf("Matrix 2  : %d [%d] [%d]\n",twoArray_2[k][j],k,j);
     sumCell= sumCell+twoArray_2[k][j]*twoArray[i][k] ;
 
@@ -159,4 +187,16 @@ void *multiplyCell(void * param)
 
         return NULL;
 
+}
+void *multiplyRow(void * param){
+int multiplyCell,i,j;
+int threadIDrow = *(int *) param;
+for (  i= 0 ; i<column2; i++ ){
+  for (  j= 0 ; j<row2; j++ ){
+      multiplyCell=twoArray[threadIDrow][j]*twoArray_2[j][i];
+
+}
+
+
+} return NULL;
 }
